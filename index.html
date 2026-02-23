@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BADMASK Podcast | O Futuro da Tecnologia</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        cyber: {
+                            cyan: '#00f3ff',
+                            magenta: '#ff00ea',
+                            purple: '#b200ff',
+                            dark: '#0a0a12',
+                            panel: '#151522'
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a12;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        /* Tech Grid Background */
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 0, 234, 0.05) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* Neon Glow Text */
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7), 0 0 20px rgba(0, 243, 255, 0.5);
+        }
+        .neon-text-magenta {
+            text-shadow: 0 0 10px rgba(255, 0, 234, 0.7), 0 0 20px rgba(255, 0, 234, 0.5);
+        }
+
+        /* Glowing Button */
+        .btn-glow {
+            position: relative;
+            z-index: 1;
+        }
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #00f3ff, #ff00ea, #b200ff, #00f3ff);
+            z-index: -1;
+            border-radius: 9999px;
+            background-size: 400%;
+            animation: glowing 20s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .btn-glow:hover::before {
+            opacity: 1;
+        }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: inherit;
+            z-index: -1;
+            border-radius: 9999px;
+        }
+
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #00f3ff, #ff00ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glassmorphism Panel */
+        .glass-panel {
+            background: rgba(21, 21, 34, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-cyber-magenta selection:text-white">
+
+    <!-- Fixed Background Elements -->
+    <div class="fixed inset-0 z-[-1] bg-grid pointer-events-none"></div>
+    <div class="fixed top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-cyber-purple/20 blur-[120px] pointer-events-none animate-pulse-slow"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyber-cyan/10 blur-[120px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 cursor-pointer text-2xl font-display font-bold tracking-wider text-white flex items-center gap-2">
+                    <i class="ph-fill ph-mask-happy text-cyber-cyan text-3xl"></i>
+                    <span class="neon-text-cyan">BADMASK</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-cyber-cyan transition-colors px-3 py-2 rounded-md text-sm font-medium">Início</a>
+                        <a href="#about" class="hover:text-cyber-magenta transition-colors px-3 py-2 rounded-md text-sm font-medium">Sobre</a>
+                        <a href="#episodes" class="hover:text-cyber-purple transition-colors px-3 py-2 rounded-md text-sm font-medium">Episódios</a>
+                        <a href="#episodes" class="ml-4 btn-glow bg-cyber-panel border border-cyber-cyan/30 text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-black transition-all flex items-center gap-2">
+                            <i class="ph-fill ph-spotify-logo text-green-500 text-lg"></i>
+                            Ouvir Agora
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="ph ph-list text-3xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-white/5">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#home" class="hover:text-cyber-cyan block px-3 py-2 rounded-md text-base font-medium">Início</a>
+                <a href="#about" class="hover:text-cyber-magenta block px-3 py-2 rounded-md text-base font-medium">Sobre</a>
+                <a href="#episodes" class="hover:text-cyber-purple block px-3 py-2 rounded-md text-base font-medium">Episódios</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex items-center min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+            
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-cyber-cyan text-sm font-medium mb-8 border border-cyber-cyan/20 animate-float">
+                <span class="w-2 h-2 rounded-full bg-cyber-cyan animate-pulse"></span>
+                Novo episódio disponível
+            </div>
+
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight mb-6 uppercase">
+                <span class="block text-white">Desmascarando</span>
+                <span class="block text-gradient neon-text-magenta mt-2">O Futuro</span>
+            </h1>
+            
+            <p class="mt-6 text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed">
+                O <span class="text-white font-medium">BADMASK Podcast</span> é a sua dose de realidade em um mundo digital. Tecnologia, cibersegurança e inovação discutidas sem filtros para estudantes e entusiastas.
+            </p>
+            
+            <div class="mt-12 flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="#episodes" class="btn-glow w-full sm:w-auto bg-cyber-magenta hover:bg-cyber-magenta/80 text-white font-bold py-4 px-10 rounded-full transition-all flex items-center justify-center gap-3 text-lg">
+                    <i class="ph-fill ph-headphones text-2xl"></i>
+                    Começar a Ouvir
+                </a>
+                <a href="#about" class="w-full sm:w-auto bg-transparent border border-gray-600 hover:border-cyber-cyan hover:text-cyber-cyan text-gray-300 font-medium py-4 px-10 rounded-full transition-all flex items-center justify-center gap-2 text-lg">
+                    Descobrir Mais
+                    <i class="ph ph-arrow-down-right"></i>
+                </a>
+            </div>
+
+            <!-- Tech decorative elements -->
+            <div class="mt-20 flex justify-center gap-8 text-gray-600 text-3xl">
+                <i class="ph ph-code hover:text-cyber-cyan transition-colors cursor-default"></i>
+                <i class="ph ph-cpu hover:text-cyber-magenta transition-colors cursor-default"></i>
+                <i class="ph ph-terminal-window hover:text-cyber-purple transition-colors cursor-default"></i>
+                <i class="ph ph-shield-check hover:text-green-500 transition-colors cursor-default"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                
+                <!-- Visual Element -->
+                <div class="relative order-2 lg:order-1 flex justify-center">
+                    <div class="w-full max-w-md aspect-square rounded-2xl glass-panel p-8 relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-cyber-cyan/10 to-cyber-magenta/10 opacity-50 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div class="relative h-full w-full border border-gray-700/50 rounded-xl flex items-center justify-center bg-cyber-dark/80">
+                            <i class="ph-fill ph-mask-happy text-9xl text-gradient neon-text-cyan group-hover:scale-110 transition-transform duration-500"></i>
+                            
+                            <!-- Overlay floating data -->
+                            <div class="absolute top-4 left-4 text-xs font-mono text-cyber-cyan/50">SYS.INIT // OK</div>
+                            <div class="absolute bottom-4 right-4 text-xs font-mono text-cyber-magenta/50">DATA_STREAM_ACTIVE</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="order-1 lg:order-2">
+                    <h2 class="text-3xl md:text-5xl font-display font-bold mb-6">
+                        Para quem o <br>
+                        <span class="text-cyber-cyan neon-text-cyan">Sistema falhou.</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg mb-6 leading-relaxed">
+                        Nascido da necessidade de ir além do superficial, o <strong>BADMASK</strong> não é apenas mais um podcast tech. Nós rasgamos o manual.
+                    </p>
+                    <p class="text-gray-400 text-lg mb-8 leading-relaxed">
+                        Seja você um aluno de Ciência da Computação buscando entender o mercado, um desenvolvedor curioso sobre as últimas falhas de segurança, ou apenas alguém fascinado pelo amanhã, este é o seu hub.
+                    </p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-cyber-cyan/10 flex items-center justify-center border border-cyber-cyan/30">
+                                <i class="ph ph-bug text-cyber-cyan text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Cibersegurança e Hacking</h4>
+                                <p class="text-sm text-gray-500">Desconstruindo vulnerabilidades reais.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-cyber-magenta/10 flex items-center justify-center border border-cyber-magenta/30">
+                                <i class="ph ph-brain text-cyber-magenta text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Inteligência Artificial</h4>
+                                <p class="text-sm text-gray-500">O que é hype e o que realmente importa.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center gap-4 text-gray-300">
+                            <div class="flex-shrink-0 w-12 h-12 rounded-full bg-cyber-purple/10 flex items-center justify-center border border-cyber-purple/30">
+                                <i class="ph ph-code-block text-cyber-purple text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-white">Carreira e Mercado</h4>
+                                <p class="text-sm text-gray-500">Dicas reais para alunos e júniores.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Spotify Integration Section -->
+    <section id="episodes" class="py-24 relative bg-black/40 border-y border-white/5">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-bold mb-4">Acesse a <span class="text-cyber-magenta neon-text-magenta">Matrix</span></h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+                    Aperte o play e faça o download do conhecimento direto no seu córtex. Os últimos episódios estão disponíveis abaixo através do Spotify.
+                </p>
+            </div>
+
+            <!-- Spotify Embed -->
+            <div class="glass-panel p-4 md:p-8 rounded-3xl shadow-2xl shadow-cyber-purple/10 relative overflow-hidden">
+                <!-- Decorative glowing lines behind player -->
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyber-cyan via-cyber-magenta to-cyber-purple"></div>
+                
+                <iframe 
+                    style="border-radius:12px" 
+                    src="https://open.spotify.com/embed/show/2t9bBmJIztmxKBAx23dQtt?utm_source=generator&theme=0" 
+                    width="100%" 
+                    height="352" 
+                    frameBorder="0" 
+                    allowfullscreen="" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                    loading="lazy"
+                    class="w-full drop-shadow-lg"
+                    title="Player do BADMASK Podcast no Spotify">
+                </iframe>
+                
+                <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-gray-400 text-sm font-mono">
+                    <div class="flex items-center gap-2">
+                        <span class="relative flex h-3 w-3">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
+                        Sincronizado com Spotify API
+                    </div>
+                    <a href="https://open.spotify.com/show/2t9bBmJIztmxKBAx23dQtt" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors flex items-center gap-1">
+                        Abrir no App <i class="ph ph-arrow-square-out"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-4xl font-display font-bold mb-6">Pronto para fazer o <span class="text-cyber-cyan">Upgrade</span>?</h2>
+            <p class="text-xl text-gray-400 mb-10">
+                Junte-se a centenas de alunos e profissionais na nossa comunidade do Discord. Compartilhe código, tire dúvidas e faça networking.
+            </p>
+            <a href="#" class="inline-flex btn-glow bg-cyber-panel border border-[#5865F2]/50 text-white font-bold py-4 px-10 rounded-full hover:bg-[#5865F2] transition-all items-center gap-3 text-lg group">
+                <i class="ph-fill ph-discord-logo text-3xl group-hover:scale-110 transition-transform"></i>
+                Entrar no Servidor
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="glass-panel border-t border-white/10 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                
+                <div class="flex items-center gap-2 text-2xl font-display font-bold text-white">
+                    <i class="ph-fill ph-mask-happy text-cyber-cyan"></i>
+                    <span>BADMASK</span>
+                </div>
+
+                <div class="flex gap-6">
+                    <a href="#" class="text-gray-400 hover:text-cyber-cyan transition-colors text-2xl"><i class="ph-fill ph-instagram-logo"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-magenta transition-colors text-2xl"><i class="ph-fill ph-twitter-logo"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-cyber-purple transition-colors text-2xl"><i class="ph-fill ph-youtube-logo"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-green-500 transition-colors text-2xl"><i class="ph-fill ph-spotify-logo"></i></a>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 font-mono">
+                <p>&copy; 2026 BADMASK Podcast. Todos os direitos reservados.</p>
+                <p>Designed with <i class="ph-fill ph-heart text-cyber-magenta"></i> for tech students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // Navbar blur effect on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-cyber-dark/80');
+                nav.classList.remove('bg-transparent');
+            } else {
+                nav.classList.remove('bg-cyber-dark/80');
+                nav.classList.add('bg-transparent');
+            }
+        });
+    </script>
+</body>
+</html>
